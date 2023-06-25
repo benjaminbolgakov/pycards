@@ -47,6 +47,9 @@ class Deck:
             start = end
         return deck_splits
 
+    def get_card(self, index):
+        return self.cards[index]
+
     def print_deck(self):
         for i in range(len(self.cards)):
             print(self.cards[i].get_card())
