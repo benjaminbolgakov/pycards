@@ -4,7 +4,7 @@ class Card:
         self.suit = suit
         self.rank = rank
 
-    def get_card(self):
+    def value(self):
         return str(self.suit) + " " + str(self.rank)
 
 
@@ -12,6 +12,10 @@ import random
 suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
 ranks = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
 class Deck:
+    """
+    TODO:
+    - Add 'shuffle' parameter to init
+    """
     def __init__(self, cards=None):
         if cards is None:
             self.cards = []
@@ -33,6 +37,49 @@ class Deck:
             j = random.randint(0, i)
             self.cards[i], self.cards[j] = self.cards[j], self.cards[i] # Perform switch
 
+    def set_card(self, index, card):
+        self.card[index] = card
+
+    def get_card(self, index):
+        return self.cards[index]
+
+    def magic_shuffle(self, choice):
+        index = choice
+        # assert index < 4 and index > 0
+        if index == 1:
+            index = 1
+        elif index == 2:
+            index = 0
+        elif index == 3:
+            index = 1
+        deck_tmp = Deck()
+        for i in range(len(self.cards)):
+            deck_tmp.set_card(i, self.cards[index])
+            index += 3
+            if (i+1)%7 == 0:
+                if choice == 1:
+                    index = 0
+                elif choice == 2:
+                    index = 1
+                elif choice == 3:
+                    index = 2
+            if (i+1)%14 == 0:
+                if choice == 1:
+                    index = 2
+                elif choice == 2:
+                    index = 2
+                elif choice == 3:
+                    index = 0
+        self.copy_deck(deck_tmp)
+
+    def size(self, deck):
+        return len(deck.cards)
+
+    def copy_deck(self, deck):
+        assert deck.size() == self.size()
+        for i in range(deck.size()):
+            self.set_card(i, deck.get_card(i))
+
     def split(self, splits):
         """
         Splits the deck into 'splits' amount of sub-decks
@@ -51,5 +98,11 @@ class Deck:
         return self.cards[index]
 
     def print_deck(self):
-        for i in range(len(self.cards)):
+        for i in range(self.size()):
             print(self.cards[i].get_card())
+
+    def print_deck(self, rows):
+        for i in range(self.size()):
+            print(self.get_card(i).value())
+            if i%3 == 0:
+                print("\n")
