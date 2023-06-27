@@ -38,22 +38,24 @@ class Deck:
             self.cards[i], self.cards[j] = self.cards[j], self.cards[i] # Perform switch
 
     def set_card(self, index, card):
-        self.card[index] = card
+        self.cards[index] = card
 
     def get_card(self, index):
         return self.cards[index]
 
     def magic_shuffle(self, choice):
-        index = choice
+        index = int(choice)
         # assert index < 4 and index > 0
         if index == 1:
             index = 1
-        elif index == 2:
+        if index == 2:
             index = 0
-        elif index == 3:
+        if index == 3:
             index = 1
         deck_tmp = Deck()
         for i in range(len(self.cards)):
+            print("i: " + str(i))
+            print("index: " + str(index))
             deck_tmp.set_card(i, self.cards[index])
             index += 3
             if (i+1)%7 == 0:
@@ -61,19 +63,19 @@ class Deck:
                     index = 0
                 elif choice == 2:
                     index = 1
-                elif choice == 3:
+                else:
                     index = 2
             if (i+1)%14 == 0:
                 if choice == 1:
                     index = 2
                 elif choice == 2:
                     index = 2
-                elif choice == 3:
+                else:
                     index = 0
         self.copy_deck(deck_tmp)
 
-    def size(self, deck):
-        return len(deck.cards)
+    def size(self):
+        return len(self.cards)
 
     def copy_deck(self, deck):
         assert deck.size() == self.size()
@@ -101,8 +103,8 @@ class Deck:
         for i in range(self.size()):
             print(self.cards[i].get_card())
 
-    def print_deck(self, rows):
-        for i in range(self.size()):
-            print(self.get_card(i).value())
+    def print_deck_rows(self, rows):
+        for i in range(1, self.size()):
+            print(self.get_card(i-1).value(), end=" | ")
             if i%3 == 0:
                 print("\n")
