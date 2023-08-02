@@ -1,11 +1,12 @@
 # Packaging Python Lib : https://packaging.python.org/en/latest/tutorials/packaging-projects/
 class Card:
     def __init__(self, suit, rank):
-        self.suit = suit
-        self.rank = rank
+        self._suit = suit
+        self._rank = rank
 
+    @property
     def value(self):
-        return str(self.suit) + " " + str(self.rank)
+        return str(self._suit) + " " + str(self._rank)
 
 
 import random
